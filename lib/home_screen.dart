@@ -114,9 +114,12 @@ class CryptoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(4.0),
+      padding: const EdgeInsets.only(left:4.0, right: 4.0),
       child: TextButton(
         onPressed: () {},
+        style: TextButton.styleFrom(
+        padding: EdgeInsets.only(top: 3.0, bottom: 3.0, left:6.0, right: 6.0),
+       ),
         child: Container(
           decoration: BoxDecoration(
               color: Colors.grey.shade300,
