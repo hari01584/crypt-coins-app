@@ -98,7 +98,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemCount: markets.length,
                     scrollDirection: Axis.vertical,
                     itemBuilder: (BuildContext context, int index) {
-                        return Text('${stats.markets![index]!.baseMarket!} ');
+                        return CryptoCard(
+                          image: 'https://picsum.photos/400',
+                          cryptoName: stats.markets![index]!.baseMarket!,
+                          cryptoExcerpt:
+                              'Ligma balls bich',
+                          price: double.parse(stats.markets![index]!.last!),
+                          change: 4.5,
+                        );
                     }
                 )
             );
