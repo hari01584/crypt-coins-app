@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: ListView(
             children: [
               CryptoCard(
-                image: 'images/bitcoin.png',
+                image: 'https://picsum.photos/400',
                 cryptoName: 'BTC',
                 cryptoExcerpt:
                     'Bitcoin is one of the largest crypto currency of the world',
@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 change: 4.5,
               ),
               CryptoCard(
-                image: 'images/bitcoin.png',
+                image: 'https://picsum.photos/400',
                 cryptoName: 'BTC',
                 cryptoExcerpt:
                     'Bitcoin is one of the largest crypto currency of the world',
@@ -52,45 +52,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 change: 4.5,
               ),
               CryptoCard(
-                image: 'images/bitcoin.png',
+                image: 'https://picsum.photos/400',
                 cryptoName: 'BTC',
                 cryptoExcerpt:
                     'Bitcoin is one of the largest crypto currency of the world',
                 price: 3023000,
                 change: 4.5,
               ),
-              CryptoCard(
-                image: 'images/bitcoin.png',
-                cryptoName: 'BTC',
-                cryptoExcerpt:
-                    'Bitcoin is one of the largest crypto currency of the world',
-                price: 3023000,
-                change: 4.5,
-              ),
-              CryptoCard(
-                image: 'images/bitcoin.png',
-                cryptoName: 'BTC',
-                cryptoExcerpt:
-                    'Bitcoin is one of the largest crypto currency of the world',
-                price: 3023000,
-                change: 4.5,
-              ),
-              CryptoCard(
-                image: 'images/bitcoin.png',
-                cryptoName: 'BTC',
-                cryptoExcerpt:
-                    'Bitcoin is one of the largest crypto currency of the world',
-                price: 3023000,
-                change: 4.5,
-              ),
-              CryptoCard(
-                image: 'images/bitcoin.png',
-                cryptoName: 'BTC',
-                cryptoExcerpt:
-                    'Bitcoin is one of the largest crypto currency of the world',
-                price: 3023000,
-                change: 4.5,
-              )
             ],
           ),
         )
@@ -127,10 +95,9 @@ class CryptoCard extends StatelessWidget {
           child: Row(
             children: [
               Expanded(
-                child: Image.asset(
+                child: Image.network(
                   image,
-                  width: 50,
-                  height: 50,
+                  height: 60,
                   fit: BoxFit.fitHeight,
                 ),
               ),
