@@ -46,7 +46,7 @@ class CryptoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(4.0),
       child: TextButton(
         onPressed: () {},
         child: Container(
@@ -69,14 +69,14 @@ class CryptoCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(3.0),
+                      padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                       child: Text(
                         'BTC',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(3.0),
+                      padding: const EdgeInsets.only(bottom: 10.0),
                       child: Text(
                           'Bitcoin-One of the most largest crypto-currency in the world'),
                     )
