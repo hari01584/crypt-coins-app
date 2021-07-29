@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
 
-class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+class SettingsScreen extends StatefulWidget {
+  @override
+  _SettingsScreenState createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  @override
+  bool a = true;
+  bool b = true;
+  bool c = true;
+  bool d = true;
 
   @override
   Widget build(BuildContext context) {
-    var value = true;
-
     return Padding(
       padding: const EdgeInsets.only(top: 20),
       child: SettingsList(
@@ -24,8 +31,12 @@ class SettingsScreen extends StatelessWidget {
               SettingsTile.switchTile(
                 title: 'Show More Data',
                 leading: Icon(Icons.show_chart),
-                switchValue: true,
-                onToggle: (bool value) {},
+                switchValue: a,
+                onToggle: (value) {
+                  setState(() {
+                    a = value;
+                  });
+                },
               ),
             ],
           ),
@@ -35,21 +46,33 @@ class SettingsScreen extends StatelessWidget {
               SettingsTile.switchTile(
                 title: 'New News Notification',
                 leading: Icon(Icons.dehaze),
-                switchValue: true,
-                onToggle: (bool value) {},
+                switchValue: b,
+                onToggle: (bool value) {
+                  setState(() {
+                    b = value;
+                  });
+                },
               ),
               SettingsTile.switchTile(
                 title: 'Push Notifications',
                 leading: Icon(Icons.circle_notifications),
-                switchValue: true,
-                onToggle: (bool value) {},
+                switchValue: c,
+                onToggle: (bool value) {
+                  setState(() {
+                    setState(() {
+                      c = value;
+                    });
+                  });
+                },
               ),
               SettingsTile.switchTile(
                 title: 'Notification Vibration',
                 leading: Icon(Icons.vibration),
-                switchValue: value,
+                switchValue: d,
                 onToggle: (bool value) {
-                  value = false;
+                  setState(() {
+                    d = value;
+                  });
                 },
               ),
             ],
