@@ -43,6 +43,9 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class CryptoCard extends StatelessWidget {
+  // final String cryptoName;
+  // final String cryptoExcerpt;
+  // final
   @override
   Widget build(BuildContext context) {
     return Padding(
