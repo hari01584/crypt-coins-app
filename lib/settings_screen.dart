@@ -8,7 +8,9 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var value = true;
 
-    return SettingsList(
+    return Padding(
+      padding: const EdgeInsets.only(top: 20),
+      child: SettingsList(
         sections: [
           SettingsSection(
             title: 'Basics',
@@ -46,29 +48,32 @@ class SettingsScreen extends StatelessWidget {
                 title: 'Notification Vibration',
                 leading: Icon(Icons.vibration),
                 switchValue: value,
-                onToggle: (bool value) { value=false; },
+                onToggle: (bool value) {
+                  value = false;
+                },
               ),
             ],
           ),
           SettingsSection(
-          title: 'Contact US',
-          tiles: [
-            SettingsTile(title: 'Whatsapp Us', leading: Icon(Icons.message)),
-            SettingsTile(title: 'Email Us', leading: Icon(Icons.email)),
-            SettingsTile(title: 'See Website', leading: Icon(Icons.web)),
-          ],
-        ),
-        SettingsSection(
-          title: 'Misc',
-          tiles: [
-            SettingsTile(
-                title: 'Terms of Service', leading: Icon(Icons.description)),
-            SettingsTile(
-                title: 'Open source licenses',
-                leading: Icon(Icons.collections_bookmark)),
-          ],
-        ),
+            title: 'Contact US',
+            tiles: [
+              SettingsTile(title: 'Whatsapp Us', leading: Icon(Icons.message)),
+              SettingsTile(title: 'Email Us', leading: Icon(Icons.email)),
+              SettingsTile(title: 'See Website', leading: Icon(Icons.web)),
+            ],
+          ),
+          SettingsSection(
+            title: 'Misc',
+            tiles: [
+              SettingsTile(
+                  title: 'Terms of Service', leading: Icon(Icons.description)),
+              SettingsTile(
+                  title: 'Open source licenses',
+                  leading: Icon(Icons.collections_bookmark)),
+            ],
+          ),
         ],
-      );
+      ),
+    );
   }
 }
