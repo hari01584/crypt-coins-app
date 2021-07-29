@@ -34,7 +34,64 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         Expanded(
           child: ListView(
-            children: [CryptoCard()],
+            children: [
+              CryptoCard(
+                image: 'images/bitcoin.png',
+                cryptoName: 'BTC',
+                cryptoExcerpt:
+                    'Bitcoin is one of the largest crypto currency of the world',
+                price: 3023000,
+                change: 4.5,
+              ),
+              CryptoCard(
+                image: 'images/bitcoin.png',
+                cryptoName: 'BTC',
+                cryptoExcerpt:
+                    'Bitcoin is one of the largest crypto currency of the world',
+                price: 3023000,
+                change: 4.5,
+              ),
+              CryptoCard(
+                image: 'images/bitcoin.png',
+                cryptoName: 'BTC',
+                cryptoExcerpt:
+                    'Bitcoin is one of the largest crypto currency of the world',
+                price: 3023000,
+                change: 4.5,
+              ),
+              CryptoCard(
+                image: 'images/bitcoin.png',
+                cryptoName: 'BTC',
+                cryptoExcerpt:
+                    'Bitcoin is one of the largest crypto currency of the world',
+                price: 3023000,
+                change: 4.5,
+              ),
+              CryptoCard(
+                image: 'images/bitcoin.png',
+                cryptoName: 'BTC',
+                cryptoExcerpt:
+                    'Bitcoin is one of the largest crypto currency of the world',
+                price: 3023000,
+                change: 4.5,
+              ),
+              CryptoCard(
+                image: 'images/bitcoin.png',
+                cryptoName: 'BTC',
+                cryptoExcerpt:
+                    'Bitcoin is one of the largest crypto currency of the world',
+                price: 3023000,
+                change: 4.5,
+              ),
+              CryptoCard(
+                image: 'images/bitcoin.png',
+                cryptoName: 'BTC',
+                cryptoExcerpt:
+                    'Bitcoin is one of the largest crypto currency of the world',
+                price: 3023000,
+                change: 4.5,
+              )
+            ],
           ),
         )
       ],
@@ -43,9 +100,17 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class CryptoCard extends StatelessWidget {
-  // final String cryptoName;
-  // final String cryptoExcerpt;
-  // final
+  final String cryptoName;
+  final String cryptoExcerpt;
+  final double price;
+  final double change;
+  final String image;
+  CryptoCard(
+      {required this.cryptoName,
+      required this.cryptoExcerpt,
+      required this.price,
+      required this.change,
+      required this.image});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -60,7 +125,7 @@ class CryptoCard extends StatelessWidget {
             children: [
               Expanded(
                 child: Image.asset(
-                  'images/bitcoin.png',
+                  image,
                   width: 50,
                   height: 50,
                   fit: BoxFit.fitHeight,
@@ -74,14 +139,13 @@ class CryptoCard extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                       child: Text(
-                        'BTC',
+                        cryptoName,
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10.0),
-                      child: Text(
-                          'Bitcoin-One of the most largest crypto-currency in the world'),
+                      child: Text(cryptoExcerpt),
                     )
                   ],
                 ),
@@ -91,12 +155,12 @@ class CryptoCard extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(6.0),
-                      child: Text('₹ 30,30000'),
+                      child: Text('₹ ${price.toString()}'),
                     ),
                     Row(
                       children: [
                         Icon(Icons.arrow_upward_rounded),
-                        Text('2.3%'),
+                        Text('${change.toString()}%'),
                       ],
                     )
                   ],
