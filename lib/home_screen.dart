@@ -32,7 +32,77 @@ class _HomeScreenState extends State<HomeScreen> {
                 )),
           ),
         ),
+        Expanded(
+          child: ListView(
+            children: [CryptoCard()],
+          ),
+        )
       ],
     ));
+  }
+}
+
+class CryptoCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextButton(
+        onPressed: () {},
+        child: Container(
+          decoration: BoxDecoration(
+              color: Colors.grey.shade300,
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          child: Row(
+            children: [
+              Expanded(
+                child: Image.asset(
+                  'images/bitcoin.png',
+                  width: 50,
+                  height: 50,
+                  fit: BoxFit.fitHeight,
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: Text(
+                        'BTC',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: Text(
+                          'Bitcoin-One of the most largest crypto-currency in the world'),
+                    )
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: Text('₹ 30,30000'),
+                    ),
+                    Row(
+                      children: [
+                        Icon(Icons.arrow_upward_rounded),
+                        Text('2.3%'),
+                      ],
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
