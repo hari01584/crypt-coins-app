@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'network/WZXAPI.dart';
+import 'pojo/WZXMarketStat.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -6,6 +9,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late Future<WZXMarketStat> futureMarket;
+
+  @override
+  void initState() {
+    super.initState();
+    futureMarket = getMarketStats();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -33,37 +44,68 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         Expanded(
-          child: ListView(
-            children: [
-              CryptoCard(
-                image: 'https://picsum.photos/400',
-                cryptoName: 'BTC',
-                cryptoExcerpt:
-                    'Bitcoin is one of the largest crypto currency of the world',
-                price: 3023000,
-                change: 4.5,
-              ),
-              CryptoCard(
-                image: 'https://picsum.photos/400',
-                cryptoName: 'BTC',
-                cryptoExcerpt:
-                    'Bitcoin is one of the largest crypto currency of the world',
-                price: 3023000,
-                change: 4.5,
-              ),
-              CryptoCard(
-                image: 'https://picsum.photos/400',
-                cryptoName: 'BTC',
-                cryptoExcerpt:
-                    'Bitcoin is one of the largest crypto currency of the world',
-                price: 3023000,
-                change: 4.5,
-              ),
-            ],
-          ),
+          child: btcCoinsWidget(),
+
+          // child: ListView(
+          //   children: [
+          //     CryptoCard(
+          //       image: 'https://picsum.photos/400',
+          //       cryptoName: 'BTC',
+          //       cryptoExcerpt:
+          //           'Bitcoin is one of the largest crypto currency of the world',
+          //       price: 3023000,
+          //       change: 4.5,
+          //     ),
+          //     CryptoCard(
+          //       image: 'https://picsum.photos/400',
+          //       cryptoName: 'BTC',
+          //       cryptoExcerpt:
+          //           'Bitcoin is one of the largest crypto currency of the world',
+          //       price: 3023000,
+          //       change: 4.5,
+          //     ),
+          //     CryptoCard(
+          //       image: 'https://picsum.photos/400',
+          //       cryptoName: 'BTC',
+          //       cryptoExcerpt:
+          //           'Bitcoin is one of the largest crypto currency of the world',
+          //       price: 3023000,
+          //       change: 4.5,
+          //     ),
+          //   ],
+          // ),
         )
       ],
     ));
+  }
+
+  Widget btcCoinsWidget() {
+    return FutureBuilder<WZXMarketStat>(
+      builder: (context, snapshot) {
+        if (ConnectionState.active != null && !snapshot.hasData) {
+          return Center(child: Text('Loading'));
+        }
+        if (ConnectionState.done != null && snapshot.hasError && snapshot.data != null) {
+        return Center(child: Text('Something went wrong :('));
+        }
+
+        var stats = snapshot.data!;
+        var markets = stats.markets!;
+        print("loaded "+stats.markets![1]!.baseMarket!);
+
+        return Container(
+                child: ListView.builder(
+                    itemCount: markets.length,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (BuildContext context, int index) {
+                        return Text('${stats.markets![index]!.baseMarket!} ');
+                    }
+                )
+            );
+
+      },
+      future: getMarketStats(),
+    );
   }
 }
 
