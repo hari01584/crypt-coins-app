@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'network/WZXAPI.dart';
 import 'pojo/WZXMarketStat.dart';
+import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 
 var arrowWidget;
 
@@ -85,13 +86,13 @@ class _HomeScreenState extends State<HomeScreen> {
     ));
   }
 
-  void _onSearchValueChange(String q){
+  void _onSearchValueChange(String q) {
     _marketData = [];
     _copyMarketData.forEach((value) {
-        var b = value!.baseMarket!;
-        if(b.startsWith(q.toLowerCase())){
-          _marketData.add(value);
-        }
+      var b = value!.baseMarket!;
+      if (b.startsWith(q.toLowerCase())) {
+        _marketData.add(value);
+      }
     });
 
     setState(() {});
@@ -124,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
         }
 
         var stats = snapshot.data!;
-        if(!isMarketLoaded){
+        if (!isMarketLoaded) {
           _marketData = stats.markets!;
           print("loaded " + _marketData[1]!.baseMarket!);
           _marketData.removeWhere((item) => item!.quoteMarket != 'inr');
@@ -132,8 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
           _copyMarketData = []..addAll(_marketData);
 
           isMarketLoaded = true;
-        }
-        else{
+        } else {
           print("Already loaded");
         }
 
@@ -159,19 +159,29 @@ class _HomeScreenState extends State<HomeScreen> {
                   } else {
                     arrowWidget = downArrow();
                   }
-                  return CryptoCard(
-                      image: 'https://media.wazirx.com/media/' +
-                          _marketData[index]!.baseMarket! +
-                          '/84.png',
-                      cryptoName:
-                          _marketData[index]!.baseMarket!.toUpperCase(),
-                      cryptoExcerpt: _marketData[index]!.quoteMarket!,
-                      price: double.parse(_marketData[index]!.last!),
-                      change: double.parse((100 *
-                              (_marketData[index]!.open! -
-                                  double.parse(_marketData[index]!.last!)) /
-                              _marketData[index]!.open!)
-                          .toStringAsFixed(2)));
+                  return SwipeActionCell(
+                    key: Key(_marketData[index]!.baseMarket!),
+                    performsFirstActionWithFullSwipe: true,
+                    trailingActions: <SwipeAction>[
+                      SwipeAction(
+                          title: "Add to Favorites",
+                          onTap: (CompletionHandler handler) async {},
+                          color: Colors.green),
+                    ],
+                    child: CryptoCard(
+                        image: 'https://media.wazirx.com/media/' +
+                            _marketData[index]!.baseMarket! +
+                            '/84.png',
+                        cryptoName:
+                            _marketData[index]!.baseMarket!.toUpperCase(),
+                        cryptoExcerpt: _marketData[index]!.quoteMarket!,
+                        price: double.parse(_marketData[index]!.last!),
+                        change: double.parse((100 *
+                                (_marketData[index]!.open! -
+                                    double.parse(_marketData[index]!.last!)) /
+                                _marketData[index]!.open!)
+                            .toStringAsFixed(2))),
+                  );
                 }));
       },
       future: getMarketStats(),
