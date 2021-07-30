@@ -174,7 +174,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             '/84.png',
                         cryptoName:
                             _marketData[index]!.baseMarket!.toUpperCase(),
-                        cryptoExcerpt: _marketData[index]!.quoteMarket!,
+                        cryptoExcerpt:
+                            _marketData[index]!.quoteMarket!.toUpperCase(),
                         price: double.parse(_marketData[index]!.last!),
                         change: double.parse((100 *
                                 (_marketData[index]!.open! -
