@@ -8,7 +8,6 @@ class NewsScreen extends StatefulWidget {
   _NewsScreenState createState() => _NewsScreenState();
 }
 
-
 class _NewsScreenState extends State<NewsScreen> {
   late Future<List<NewsFrame>> futureNews;
 
@@ -25,15 +24,13 @@ class _NewsScreenState extends State<NewsScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Expanded(
-              child: newsWidget()
-            ),
-          ],
-        ),
-      );
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Expanded(child: newsWidget()),
+        ],
+      ),
+    );
   }
 
   Widget newsWidget() {
@@ -46,36 +43,34 @@ class _NewsScreenState extends State<NewsScreen> {
     // );
     return FutureBuilder<List<NewsFrame>>(
       builder: (context, snapshot) {
-          if (ConnectionState.active != null && !snapshot.hasData) {
-            return Center(child: Text('Loading'));
-          }
-          if (ConnectionState.done != null && snapshot.hasError && snapshot.data != null) {
+        if (ConnectionState.active != null && !snapshot.hasData) {
+          return Center(child: Text('Loading'));
+        }
+        if (ConnectionState.done != null &&
+            snapshot.hasError &&
+            snapshot.data != null) {
           return Center(child: Text('Something went wrong :('));
-          }
-          List<NewsFrame> news = snapshot.data!;
-          print("News Items Count: "+news.length.toString());
+        }
+        List<NewsFrame> news = snapshot.data!;
+        print("News Items Count: " + news.length.toString());
 
-          return Container(
-                  child: ListView.builder(
-                  itemCount: news.length,
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (BuildContext context, int index) {
-                    var newsitem = news[index];
-                    return NewsCard(
+        return Container(
+            child: ListView.builder(
+                itemCount: news.length,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (BuildContext context, int index) {
+                  var newsitem = news[index];
+                  return NewsCard(
                       postUrl: newsitem.postUrl!,
                       imgUrl: newsitem.imgUrl!,
                       headline: newsitem.headline!,
                       desc: newsitem.desc!,
-                      time: newsitem.time!
-                    );
-                  }
-                )
-              );
-        },
-        future: getLiveNews(),
-      );
+                      time: newsitem.time!);
+                }));
+      },
+      future: getLiveNews(),
+    );
   }
-
 }
 
 class NewsCard extends StatelessWidget {
@@ -96,69 +91,69 @@ class NewsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-            onPressed: () => _launchURL(postUrl),
-            style: TextButton.styleFrom(
-            padding: EdgeInsets.only(top: 3.0, bottom: 3.0, left:6.0, right: 6.0),
-           ),
-            child: Card(
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    color: Color(0xFFF5F5F5),
-                    elevation: 3,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+        onPressed: () => _launchURL(postUrl),
+        style: TextButton.styleFrom(
+          padding:
+              EdgeInsets.only(top: 3.0, bottom: 3.0, left: 6.0, right: 6.0),
+        ),
+        child: Card(
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          color: Color(0xFFF5F5F5),
+          elevation: 3,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.network(
+                imgUrl,
+                width: double.infinity,
+                height: 120,
+                fit: BoxFit.cover,
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(15, 15, 15, 25),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text(
+                      "Head: " + headline,
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Image.network(
-                          imgUrl,
-                          width: double.infinity,
-                          height: 120,
-                          fit: BoxFit.cover,
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(0, 3, 0, 0),
+                      child: Text(
+                        "Desc: " + desc,
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
                         ),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(15, 15, 15, 25),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Text(
-                                "Head: " + headline,
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(0, 3, 0, 0),
-                                child: Text(
-                                  "Desc: " + desc,
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(0, 3, 0, 0),
-                                child: Text(
-                                  "At: " + time,
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
+                      ),
                     ),
-                )
-          );
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(0, 3, 0, 0),
+                      child: Text(
+                        "At: " + time,
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        ));
   }
 
-  void _launchURL(String _url) async =>
-    await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
-
+  void _launchURL(String _url) async => await canLaunch(_url)
+      ? await launch(_url)
+      : throw 'Could not launch $_url';
 }

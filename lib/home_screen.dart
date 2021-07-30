@@ -3,6 +3,8 @@ import 'package:http/http.dart' as http;
 import 'network/WZXAPI.dart';
 import 'pojo/WZXMarketStat.dart';
 
+var arrowWidget;
+
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -79,37 +81,63 @@ class _HomeScreenState extends State<HomeScreen> {
     ));
   }
 
+  Widget upArrow() {
+    return Icon(
+      Icons.arrow_upward_rounded,
+      color: Colors.green,
+    );
+  }
+
+  Widget downArrow() {
+    return Icon(
+      Icons.arrow_downward_rounded,
+      color: Colors.red,
+    );
+  }
+
   Widget btcCoinsWidget() {
     return FutureBuilder<WZXMarketStat>(
       builder: (context, snapshot) {
         if (ConnectionState.active != null && !snapshot.hasData) {
           return Center(child: Text('Loading'));
         }
-        if (ConnectionState.done != null && snapshot.hasError && snapshot.data != null) {
-        return Center(child: Text('Something went wrong :('));
+        if (ConnectionState.done != null &&
+            snapshot.hasError &&
+            snapshot.data != null) {
+          return Center(child: Text('Something went wrong :('));
         }
 
         var stats = snapshot.data!;
         var markets = stats.markets!;
-        print("loaded "+stats.markets![1]!.baseMarket!);
+        print("loaded " + stats.markets![1]!.baseMarket!);
 
         return Container(
-                child: ListView.builder(
-                    itemCount: markets.length,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (BuildContext context, int index) {
-                        return CryptoCard(
-                          image: 'https://picsum.photos/400',
-                          cryptoName: stats.markets![index]!.baseMarket!,
-                          cryptoExcerpt:
-                              'Ligma balls bich',
-                          price: double.parse(stats.markets![index]!.last!),
-                          change: 4.5,
-                        );
-                    }
-                )
-            );
-
+            child: ListView.builder(
+                itemCount: markets.length,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (BuildContext context, int index) {
+                  if ((double.parse((100 *
+                              (stats.markets![index]!.open! -
+                                  double.parse(stats.markets![index]!.last!)) /
+                              stats.markets![index]!.open!)
+                          .toStringAsFixed(2))) >
+                      0) {
+                    arrowWidget = upArrow();
+                  } else {
+                    arrowWidget = downArrow();
+                  }
+                  return CryptoCard(
+                      image: 'https://picsum.photos/400',
+                      cryptoName:
+                          stats.markets![index]!.baseMarket!.toUpperCase(),
+                      cryptoExcerpt: 'Ligma balls bich',
+                      price: double.parse(stats.markets![index]!.last!),
+                      change: double.parse((100 *
+                              (stats.markets![index]!.open! -
+                                  double.parse(stats.markets![index]!.last!)) /
+                              stats.markets![index]!.open!)
+                          .toStringAsFixed(2)));
+                }));
       },
       future: getMarketStats(),
     );
@@ -131,12 +159,13 @@ class CryptoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left:4.0, right: 4.0),
+      padding: const EdgeInsets.only(left: 4.0, right: 4.0),
       child: TextButton(
         onPressed: () {},
         style: TextButton.styleFrom(
-        padding: EdgeInsets.only(top: 3.0, bottom: 3.0, left:6.0, right: 6.0),
-       ),
+          padding:
+              EdgeInsets.only(top: 3.0, bottom: 3.0, left: 6.0, right: 6.0),
+        ),
         child: Container(
           decoration: BoxDecoration(
               color: Colors.grey.shade300,
@@ -178,7 +207,7 @@ class CryptoCard extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        Icon(Icons.arrow_upward_rounded),
+                        arrowWidget,
                         Text('${change.toString()}%'),
                       ],
                     )
