@@ -1,3 +1,4 @@
+import 'package:cryptapp/crypto_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -88,13 +89,13 @@ class _HomeScreenState extends State<HomeScreen> {
     ));
   }
 
-  void _onSearchValueChange(String q){
+  void _onSearchValueChange(String q) {
     _marketData = [];
     _copyMarketData.forEach((value) {
-        var b = value.id!;
-        if(b.startsWith(q.toLowerCase())){
-          _marketData.add(value);
-        }
+      var b = value.id!;
+      if (b.startsWith(q.toLowerCase())) {
+        _marketData.add(value);
+      }
     });
 
     setState(() {});
@@ -127,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
         }
 
         var stats = snapshot.data!;
-        if(!isMarketLoaded){
+        if (!isMarketLoaded) {
           _marketData = stats;
 
 //          _marketData.removeWhere((item) => item!.quoteMarket != 'inr');
@@ -135,8 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
           _copyMarketData = []..addAll(_marketData);
 
           isMarketLoaded = true;
-        }
-        else{
+        } else {
           print("Already loaded");
         }
 
@@ -152,23 +152,34 @@ class _HomeScreenState extends State<HomeScreen> {
                       _marketData[index].image == null ||
                       _marketData[index].name == null ||
                       _marketData[index].currentPrice == null ||
-                      false
-                    ) return Container();
+                      false) return Container();
 
                   if (_marketData[index].priceChangePercentage_24h! > 0) {
                     arrowWidget = upArrow();
                   } else {
                     arrowWidget = downArrow();
                   }
-                  return CryptoCard(
-                      image: _marketData[index].image!,
-                      cryptoName:
-                          _marketData[index].name!.toUpperCase(),
-                      cryptoExcerpt: _marketData[index].symbol!,
-                      price: _marketData[index].currentPrice!,
-                       //price: 20.1,
-                      change: double.parse(_marketData[index].priceChangePercentage_24h!.toStringAsFixed(2))
-                    );
+                  return SwipeActionCell(
+                    key: Key(_marketData[index].id!),
+                    performsFirstActionWithFullSwipe: true,
+                    trailingActions: <SwipeAction>[
+                      SwipeAction(
+                          title: "Add to Favorites",
+                          onTap: (CompletionHandler handler) async {
+                            print('hiiiii');
+                          },
+                          color: Colors.green),
+                    ],
+                    child: CryptoCard(
+                        image: _marketData[index].image!,
+                        cryptoName: _marketData[index].name!.toUpperCase(),
+                        cryptoExcerpt: _marketData[index].symbol!,
+                        price: _marketData[index].currentPrice!,
+                        //price: 20.1,
+                        change: double.parse(_marketData[index]
+                            .priceChangePercentage_24h!
+                            .toStringAsFixed(2))),
+                  );
                 }));
       },
       future: getGeckoMarket(),
@@ -193,7 +204,10 @@ class CryptoCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 4.0, right: 4.0),
       child: TextButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => CryptoDetailCard()));
+        },
         style: TextButton.styleFrom(
           padding:
               EdgeInsets.only(top: 3.0, bottom: 3.0, left: 6.0, right: 6.0),
