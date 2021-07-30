@@ -90,20 +90,6 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {});
   }
 
-  Widget upArrow() {
-    return Icon(
-      Icons.arrow_upward_rounded,
-      color: Colors.green,
-    );
-  }
-
-  Widget downArrow() {
-    return Icon(
-      Icons.arrow_downward_rounded,
-      color: Colors.red,
-    );
-  }
-
   Widget btcCoinsWidget() {
     return FutureBuilder<List<GeckoMarket>>(
       builder: (context, snapshot) {
@@ -143,11 +129,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       _marketData[index].currentPrice == null ||
                       false) return Container();
 
-                  if (_marketData[index].priceChangePercentage_24h! > 0) {
-                    arrowWidget = upArrow();
-                  } else {
-                    arrowWidget = downArrow();
-                  }
                   return SwipeActionCell(
                     key: Key(_marketData[index].id!),
                     performsFirstActionWithFullSwipe: true,
@@ -193,6 +174,13 @@ class CryptoCard extends StatelessWidget {
       required this.image});
   @override
   Widget build(BuildContext context) {
+    var tArrow;
+    if(change>0){
+      tArrow = upArrow();
+    }
+    else{
+      tArrow = downArrow();
+    }
     return Padding(
       padding: const EdgeInsets.only(left: 4.0, right: 4.0),
       child: TextButton(
@@ -247,7 +235,7 @@ class CryptoCard extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        arrowWidget,
+                        tArrow,
                         Text('${change.toString()}%'),
                       ],
                     )
@@ -258,6 +246,20 @@ class CryptoCard extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget upArrow() {
+    return Icon(
+      Icons.arrow_upward_rounded,
+      color: Colors.green,
+    );
+  }
+
+  Widget downArrow() {
+    return Icon(
+      Icons.arrow_downward_rounded,
+      color: Colors.red,
     );
   }
 }

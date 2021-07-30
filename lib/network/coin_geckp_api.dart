@@ -4,6 +4,7 @@ import '../../pojo/gecko_market.dart';
 import '../../pojo/gecko_coin.dart';
 
 Future<List<GeckoMarket>> getGeckoMarket() async {
+  print("Loading gecko market data");
   List<GeckoMarket> market = [];
 
   final response = await http
