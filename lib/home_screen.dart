@@ -1,9 +1,9 @@
-import 'package:cryptapp/crypto_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'network/coin_geckp_api.dart';
 import 'pojo/gecko_market.dart';
+import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 
 var arrowWidget;
 
@@ -160,27 +160,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   } else {
                     arrowWidget = downArrow();
                   }
-
-                  return SwipeActionCell(
-                    key: Key(_marketData[index]!.baseMarket!),
-                    performsFirstActionWithFullSwipe: true,
-                    trailingActions: <SwipeAction>[
-                      SwipeAction(
-                          title: "Add to Favorites",
-                          onTap: (CompletionHandler handler) async {
-                            print('hiiiii');
-                          },
-                          color: Colors.green),
-                    ],
-                    child: CryptoCard(
+                  return CryptoCard(
                       image: _marketData[index].image!,
                       cryptoName:
                           _marketData[index].name!.toUpperCase(),
                       cryptoExcerpt: _marketData[index].symbol!,
                       price: _marketData[index].currentPrice!,
+                       //price: 20.1,
                       change: double.parse(_marketData[index].priceChangePercentage_24h!.toStringAsFixed(2))
-                    ),
-                  );
+                    );
                 }));
       },
       future: getGeckoMarket(),
@@ -205,10 +193,7 @@ class CryptoCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 4.0, right: 4.0),
       child: TextButton(
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => CryptoDetailCard()));
-        },
+        onPressed: () {},
         style: TextButton.styleFrom(
           padding:
               EdgeInsets.only(top: 3.0, bottom: 3.0, left: 6.0, right: 6.0),
