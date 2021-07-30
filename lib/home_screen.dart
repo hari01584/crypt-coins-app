@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _marketData = [];
     _copyMarketData.forEach((value) {
         var b = value!.baseMarket!;
-        if(b.startsWith(q)){
+        if(b.startsWith(q.toLowerCase())){
           _marketData.add(value);
         }
     });
@@ -126,11 +126,11 @@ class _HomeScreenState extends State<HomeScreen> {
         var stats = snapshot.data!;
         if(!isMarketLoaded){
           _marketData = stats.markets!;
-          _copyMarketData = []..addAll(_marketData);
-
           print("loaded " + _marketData[1]!.baseMarket!);
           _marketData.removeWhere((item) => item!.quoteMarket != 'inr');
           _marketData.removeWhere((item) => item!.status == 'suspended');
+          _copyMarketData = []..addAll(_marketData);
+
           isMarketLoaded = true;
         }
         else{
