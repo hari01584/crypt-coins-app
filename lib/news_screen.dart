@@ -44,7 +44,7 @@ class _NewsScreenState extends State<NewsScreen> {
     return FutureBuilder<List<NewsFrame>>(
       builder: (context, snapshot) {
         if (ConnectionState.active != null && !snapshot.hasData) {
-          return Center(child: Text('Loading'));
+          return Center(child: CircularProgressIndicator());
         }
         if (ConnectionState.done != null &&
             snapshot.hasError &&
