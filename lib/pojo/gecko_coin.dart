@@ -4,6 +4,7 @@ class GeckoCoin{
   String? name;
   String? image;
   String? description;
+  String? currentPriceInr;
 
   GeckoCoin(
     this.id,
@@ -11,6 +12,7 @@ class GeckoCoin{
     this.name,
     this.image,
     this.description,
+    this.currentPriceInr,
   );
 
   GeckoCoin.fromJson(Map<String, dynamic> json) {
@@ -19,5 +21,10 @@ class GeckoCoin{
     name = json["name"]?.toString();
     image = json["image"]["thumb"]?.toString();
     description = json["description"]["en"]?.toString();
+    currentPriceInr = json["market_data"]["current_price"]["inr"]?.toString();
+  }
+
+  toString(){
+    return "Coin With id: "+id!;
   }
 }
