@@ -109,7 +109,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
         var stats = snapshot.data!;
         var markets = stats.markets!;
-        print("loaded " + stats.markets![1]!.baseMarket!);
+        print("loaded " + markets[1]!.baseMarket!);
+
+        markets.removeWhere((item) => item!.quoteMarket != 'inr');
+
 
         return Container(
             child: ListView.builder(
@@ -117,10 +120,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 scrollDirection: Axis.vertical,
                 itemBuilder: (BuildContext context, int index) {
                   if ((double.parse((100 *
-                              (stats.markets![index]!.open! -
-                                  double.parse(stats.markets![index]!.last!)) /
-                              stats.markets![index]!.open!)
-                          .toStringAsFixed(2))) >
+                    (stats.markets![index]!.open! -
+                        double.parse(stats.markets![index]!.last!)) /
+                    stats.markets![index]!.open!)
+                    .toStringAsFixed(2))) >
                       0) {
                     arrowWidget = upArrow();
                   } else {
@@ -130,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       image: 'https://picsum.photos/400',
                       cryptoName:
                           stats.markets![index]!.baseMarket!.toUpperCase(),
-                      cryptoExcerpt: 'Ligma balls bich',
+                      cryptoExcerpt: stats.markets![index]!.quoteMarket!,
                       price: double.parse(stats.markets![index]!.last!),
                       change: double.parse((100 *
                               (stats.markets![index]!.open! -
