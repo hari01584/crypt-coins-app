@@ -35,22 +35,36 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.all(20),
           child: Container(
             height: 45,
-            child: TextField(
-                textInputAction: TextInputAction.search,
-                onSubmitted: (value) => _onSearchValueChange(value),
-                onChanged: (value) => _onSearchValueChange(value),
-                decoration: InputDecoration(
-                  prefixIcon: Icon(
-                    Icons.search,
-                    color: Colors.blue,
-                  ),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(color: Colors.blue)),
-                  hintText: 'Search Crypto',
-                )),
+            child: Row(
+              children: [
+                Expanded(
+                    child: IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.refresh,
+                          color: Colors.blue,
+                        ))),
+                Expanded(
+                  flex: 8,
+                  child: TextField(
+                      textInputAction: TextInputAction.search,
+                      onSubmitted: (value) => _onSearchValueChange(value),
+                      onChanged: (value) => _onSearchValueChange(value),
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.search,
+                          color: Colors.blue,
+                        ),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide: BorderSide(color: Colors.blue)),
+                        hintText: 'Search Crypto',
+                      )),
+                ),
+              ],
+            ),
           ),
         ),
         Expanded(
