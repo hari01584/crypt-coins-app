@@ -27,24 +27,9 @@ class _NewsScreenState extends State<NewsScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            Align(
-              alignment: Alignment(0.0, -0.95),
-              child: Text(
-                'Crypto News',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize:26.0,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.normal,
-                  fontStyle: FontStyle.italic,
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 15.0, left: 5.0, right: 5.0),
-              child: Expanded(
-                child: newsWidget()
-              )
+            
+            Expanded(
+              child: newsWidget()
             ),
           ],
         ),
@@ -75,7 +60,14 @@ class _NewsScreenState extends State<NewsScreen> {
                   itemCount: news.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (BuildContext context, int index) {
-                    return Text("A00");
+                    var newsitem = news[index];
+                    return NewsCard(
+                      postUrl: newsitem.postUrl!,
+                      imgUrl: newsitem.imgUrl!,
+                      headline: newsitem.headline!,
+                      desc: newsitem.desc!,
+                      time: newsitem.time!
+                    );
                   }
                 )
               );
