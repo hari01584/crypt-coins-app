@@ -129,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     arrowWidget = downArrow();
                   }
                   return CryptoCard(
-                      image: 'https://picsum.photos/400',
+                      image: 'https://media.wazirx.com/media/'+ stats.markets![index]!.baseMarket! +'/84.png',
                       cryptoName:
                           stats.markets![index]!.baseMarket!.toUpperCase(),
                       cryptoExcerpt: stats.markets![index]!.quoteMarket!,
