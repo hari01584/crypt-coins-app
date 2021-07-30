@@ -118,18 +118,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemCount: markets.length,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (BuildContext context, int index) {
-                  if ((double.parse((100 *
-                              (stats.markets![index]!.open! -
-                                  double.parse(stats.markets![index]!.last!)) /
-                              stats.markets![index]!.open!)
-                          .toStringAsFixed(2))) >
-                      0) {
+                  if(markets[index] == null ||
+                    markets[index]!.last == null ||
+                    markets[index]!.open == null ||
+                    markets[index]!.baseMarket == null ||
+                    markets[index]!.quoteMarket == null ||
+                    markets[index]!.last == null
+                  )
+                    return Container();
+
+
+                  if ((double.parse((100 * (markets[index]!.open! - double.parse(markets[index]!.last!)) / markets[index]!.open!).toStringAsFixed(2))) > 0) {
                     arrowWidget = upArrow();
                   } else {
                     arrowWidget = downArrow();
                   }
                   return CryptoCard(
-                      image: 'https://media.wazirx.com/media/'+ stats.markets![index]!.baseMarket! +'/84.png',
+                      image: 'https://media.wazirx.com/media/'+ markets[index]!.baseMarket! +'/84.png',
                       cryptoName:
                           stats.markets![index]!.baseMarket!.toUpperCase(),
                       cryptoExcerpt: stats.markets![index]!.quoteMarket!,
