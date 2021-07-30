@@ -99,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return FutureBuilder<WZXMarketStat>(
       builder: (context, snapshot) {
         if (ConnectionState.active != null && !snapshot.hasData) {
-          return CircularProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         }
         if (ConnectionState.done != null &&
             snapshot.hasError &&
@@ -113,17 +113,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
         markets.removeWhere((item) => item!.quoteMarket != 'inr');
 
-
         return Container(
             child: ListView.builder(
                 itemCount: markets.length,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (BuildContext context, int index) {
                   if ((double.parse((100 *
-                    (stats.markets![index]!.open! -
-                        double.parse(stats.markets![index]!.last!)) /
-                    stats.markets![index]!.open!)
-                    .toStringAsFixed(2))) >
+                              (stats.markets![index]!.open! -
+                                  double.parse(stats.markets![index]!.last!)) /
+                              stats.markets![index]!.open!)
+                          .toStringAsFixed(2))) >
                       0) {
                     arrowWidget = upArrow();
                   } else {
