@@ -13,6 +13,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late Future<WZXMarketStat> futureMarket;
   List<WZXMarketStatMarkets?> _marketData = [];
+  List<WZXMarketStatMarkets?> _copyMarketData = [];
   bool isMarketLoaded = false;
 
   @override
@@ -85,11 +86,15 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _onSearchValueChange(String q){
-    setState(() {
-      _marketData = [];
+    _marketData = [];
+    _copyMarketData.forEach((value) {
+        var b = value!.baseMarket!;
+        if(b.startsWith(q)){
+          _marketData.add(value);
+        }
     });
 
-    print(_marketData);
+    setState(() {});
   }
 
   Widget upArrow() {
@@ -121,9 +126,11 @@ class _HomeScreenState extends State<HomeScreen> {
         var stats = snapshot.data!;
         if(!isMarketLoaded){
           _marketData = stats.markets!;
+          _copyMarketData = []..addAll(_marketData);
+
           print("loaded " + _marketData[1]!.baseMarket!);
           _marketData.removeWhere((item) => item!.quoteMarket != 'inr');
-          _marketData.removeWhere((item) => item!.baseMarket == 'bchold');
+          _marketData.removeWhere((item) => item!.status == 'suspended');
           isMarketLoaded = true;
         }
         else{
