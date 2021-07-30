@@ -186,7 +186,7 @@ class CryptoCard extends StatelessWidget {
               Expanded(
                 child: Image.network(
                   image,
-                  height: 60,
+                  height: 45,
                   fit: BoxFit.fitHeight,
                 ),
               ),
