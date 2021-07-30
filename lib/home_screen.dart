@@ -39,7 +39,11 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Expanded(
                     child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          isMarketLoaded = false;
+                          List<GeckoMarket> _marketData = [];
+                          setState(() {});
+                        },
                         icon: Icon(
                           Icons.refresh,
                           color: Colors.blue,
