@@ -112,29 +112,33 @@ class _HomeScreenState extends State<HomeScreen> {
         print("loaded " + markets[1]!.baseMarket!);
 
         markets.removeWhere((item) => item!.quoteMarket != 'inr');
-
+        markets.removeWhere((item) => item!.baseMarket == 'bchold');
         return Container(
             child: ListView.builder(
                 itemCount: markets.length,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (BuildContext context, int index) {
-                  if(markets[index] == null ||
-                    markets[index]!.last == null ||
-                    markets[index]!.open == null ||
-                    markets[index]!.baseMarket == null ||
-                    markets[index]!.quoteMarket == null ||
-                    markets[index]!.last == null
-                  )
-                    return Container();
+                  if (markets[index] == null ||
+                      markets[index]!.last == null ||
+                      markets[index]!.open == null ||
+                      markets[index]!.baseMarket == null ||
+                      markets[index]!.quoteMarket == null ||
+                      markets[index]!.last == null) return Container();
 
-
-                  if ((double.parse((100 * (markets[index]!.open! - double.parse(markets[index]!.last!)) / markets[index]!.open!).toStringAsFixed(2))) > 0) {
+                  if ((double.parse((100 *
+                              (markets[index]!.open! -
+                                  double.parse(markets[index]!.last!)) /
+                              markets[index]!.open!)
+                          .toStringAsFixed(2))) >
+                      0) {
                     arrowWidget = upArrow();
                   } else {
                     arrowWidget = downArrow();
                   }
                   return CryptoCard(
-                      image: 'https://media.wazirx.com/media/'+ markets[index]!.baseMarket! +'/84.png',
+                      image: 'https://media.wazirx.com/media/' +
+                          markets[index]!.baseMarket! +
+                          '/84.png',
                       cryptoName:
                           stats.markets![index]!.baseMarket!.toUpperCase(),
                       cryptoExcerpt: stats.markets![index]!.quoteMarket!,
