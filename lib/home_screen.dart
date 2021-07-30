@@ -197,8 +197,10 @@ class CryptoCard extends StatelessWidget {
       padding: const EdgeInsets.only(left: 4.0, right: 4.0),
       child: TextButton(
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => CryptoDetailCard(id)));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => CryptoDetailCard(id: id)));
         },
         style: TextButton.styleFrom(
           padding:
