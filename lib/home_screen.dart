@@ -12,6 +12,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late Future<WZXMarketStat> futureMarket;
+  List<WZXMarketStatMarkets?> _marketData = [];
+  bool isMarketLoaded = false;
 
   @override
   void initState() {
@@ -30,7 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 45,
             child: TextField(
                 textInputAction: TextInputAction.search,
-                onSubmitted: (value) {},
+                onSubmitted: (value) => _onSearchValueChange(value),
+                onChanged: (value) => _onSearchValueChange(value),
                 decoration: InputDecoration(
                   prefixIcon: Icon(
                     Icons.search,
@@ -81,6 +84,14 @@ class _HomeScreenState extends State<HomeScreen> {
     ));
   }
 
+  void _onSearchValueChange(String q){
+    setState(() {
+      _marketData = [];
+    });
+
+    print(_marketData);
+  }
+
   Widget upArrow() {
     return Icon(
       Icons.arrow_upward_rounded,
@@ -108,27 +119,33 @@ class _HomeScreenState extends State<HomeScreen> {
         }
 
         var stats = snapshot.data!;
-        var markets = stats.markets!;
-        print("loaded " + markets[1]!.baseMarket!);
+        if(!isMarketLoaded){
+          _marketData = stats.markets!;
+          print("loaded " + _marketData[1]!.baseMarket!);
+          _marketData.removeWhere((item) => item!.quoteMarket != 'inr');
+          _marketData.removeWhere((item) => item!.baseMarket == 'bchold');
+          isMarketLoaded = true;
+        }
+        else{
+          print("Already loaded");
+        }
 
-        markets.removeWhere((item) => item!.quoteMarket != 'inr');
-        markets.removeWhere((item) => item!.baseMarket == 'bchold');
         return Container(
             child: ListView.builder(
-                itemCount: markets.length,
+                itemCount: _marketData.length,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (BuildContext context, int index) {
-                  if (markets[index] == null ||
-                      markets[index]!.last == null ||
-                      markets[index]!.open == null ||
-                      markets[index]!.baseMarket == null ||
-                      markets[index]!.quoteMarket == null ||
-                      markets[index]!.last == null) return Container();
+                  if (_marketData[index] == null ||
+                      _marketData[index]!.last == null ||
+                      _marketData[index]!.open == null ||
+                      _marketData[index]!.baseMarket == null ||
+                      _marketData[index]!.quoteMarket == null ||
+                      _marketData[index]!.last == null) return Container();
 
                   if ((double.parse((100 *
-                              (markets[index]!.open! -
-                                  double.parse(markets[index]!.last!)) /
-                              markets[index]!.open!)
+                              (_marketData[index]!.open! -
+                                  double.parse(_marketData[index]!.last!)) /
+                              _marketData[index]!.open!)
                           .toStringAsFixed(2))) >
                       0) {
                     arrowWidget = upArrow();
@@ -137,16 +154,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
                   return CryptoCard(
                       image: 'https://media.wazirx.com/media/' +
-                          markets[index]!.baseMarket! +
+                          _marketData[index]!.baseMarket! +
                           '/84.png',
                       cryptoName:
-                          stats.markets![index]!.baseMarket!.toUpperCase(),
-                      cryptoExcerpt: stats.markets![index]!.quoteMarket!,
-                      price: double.parse(stats.markets![index]!.last!),
+                          _marketData[index]!.baseMarket!.toUpperCase(),
+                      cryptoExcerpt: _marketData[index]!.quoteMarket!,
+                      price: double.parse(_marketData[index]!.last!),
                       change: double.parse((100 *
-                              (stats.markets![index]!.open! -
-                                  double.parse(stats.markets![index]!.last!)) /
-                              stats.markets![index]!.open!)
+                              (_marketData[index]!.open! -
+                                  double.parse(_marketData[index]!.last!)) /
+                              _marketData[index]!.open!)
                           .toStringAsFixed(2)));
                 }));
       },
