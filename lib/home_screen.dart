@@ -73,35 +73,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         Expanded(
           child: btcCoinsWidget(),
-
-          // child: ListView(
-          //   children: [
-          //     CryptoCard(
-          //       image: 'https://picsum.photos/400',
-          //       cryptoName: 'BTC',
-          //       cryptoExcerpt:
-          //           'Bitcoin is one of the largest crypto currency of the world',
-          //       price: 3023000,
-          //       change: 4.5,
-          //     ),
-          //     CryptoCard(
-          //       image: 'https://picsum.photos/400',
-          //       cryptoName: 'BTC',
-          //       cryptoExcerpt:
-          //           'Bitcoin is one of the largest crypto currency of the world',
-          //       price: 3023000,
-          //       change: 4.5,
-          //     ),
-          //     CryptoCard(
-          //       image: 'https://picsum.photos/400',
-          //       cryptoName: 'BTC',
-          //       cryptoExcerpt:
-          //           'Bitcoin is one of the largest crypto currency of the world',
-          //       price: 3023000,
-          //       change: 4.5,
-          //     ),
-          //   ],
-          // ),
         )
       ],
     ));
@@ -189,6 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: Colors.green),
                     ],
                     child: CryptoCard(
+                        id: _marketData[index].id!,
                         image: _marketData[index].image!,
                         cryptoName: _marketData[index].name!.toUpperCase(),
                         cryptoExcerpt: _marketData[index].symbol!,
@@ -206,13 +178,15 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class CryptoCard extends StatelessWidget {
+  final String id;
   final String cryptoName;
   final String cryptoExcerpt;
   final double price;
   final double change;
   final String image;
   CryptoCard(
-      {required this.cryptoName,
+      {required this.id,
+      required this.cryptoName,
       required this.cryptoExcerpt,
       required this.price,
       required this.change,
@@ -224,7 +198,7 @@ class CryptoCard extends StatelessWidget {
       child: TextButton(
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => CryptoDetailCard()));
+              MaterialPageRoute(builder: (context) => CryptoDetailCard(id)));
         },
         style: TextButton.styleFrom(
           padding:
