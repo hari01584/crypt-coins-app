@@ -99,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return FutureBuilder<WZXMarketStat>(
       builder: (context, snapshot) {
         if (ConnectionState.active != null && !snapshot.hasData) {
-          return Center(child: Text('Loading'));
+          return CircularProgressIndicator();
         }
         if (ConnectionState.done != null &&
             snapshot.hasError &&
