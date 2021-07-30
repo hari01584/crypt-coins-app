@@ -2,12 +2,19 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../../pojo/gecko_market.dart';
 
-Future<GeckoMarket> getMarketStats() async {
-  // Response response = await get(Uri.parse("https://api.wazirx.com/api/v2/market-status"));
+Future<List<GeckoMarket>> getGeckoMarket() async {
+  List<GeckoMarket> market = [];
+
   final response = await http
         .get(Uri.parse('https://api.coingecko.com/api/v3/coins/markets?vs_currency=inr&order=market_cap_desc&per_page=100&page=1&sparkline=false'));
   if (response.statusCode == 200) {
-    return GeckoMarket.fromJson(jsonDecode(response.body));
+    var js = jsonDecode(response.body);
+    js.forEach((element) {
+      var i = GeckoMarket.fromJson(element);
+      market.add(i);
+    });
+
+    return market;
   } else {
     throw Exception('Failed to load market data');
   }

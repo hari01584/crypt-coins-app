@@ -37,7 +37,7 @@ class GeckoMarket {
   String? symbol;
   String? name;
   String? image;
-  int? currentPrice;
+  double? currentPrice;
   int? marketCap;
   int? marketCapRank;
   int? fullyDilutedValuation;
@@ -93,7 +93,7 @@ class GeckoMarket {
     symbol = json["symbol"]?.toString();
     name = json["name"]?.toString();
     image = json["image"]?.toString();
-    currentPrice = int.tryParse(json["current_price"]?.toString() ?? '');
+    currentPrice = double.tryParse(json["current_price"]?.toString() ?? '');
     marketCap = int.tryParse(json["market_cap"]?.toString() ?? '');
     marketCapRank = int.tryParse(json["market_cap_rank"]?.toString() ?? '');
     fullyDilutedValuation = int.tryParse(json["fully_diluted_valuation"]?.toString() ?? '');

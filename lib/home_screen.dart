@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'network/WZXAPI.dart';
-import 'pojo/WZXMarketStat.dart';
-import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
+
+import 'network/coin_geckp_api.dart';
+import 'pojo/gecko_market.dart';
 
 var arrowWidget;
 
@@ -12,15 +12,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Future<WZXMarketStat> futureMarket;
-  List<WZXMarketStatMarkets?> _marketData = [];
-  List<WZXMarketStatMarkets?> _copyMarketData = [];
+  late Future<List<GeckoMarket>> futureGeckoMarket;
+
+  List<GeckoMarket> _marketData = [];
+  List<GeckoMarket> _copyMarketData = [];
   bool isMarketLoaded = false;
 
   @override
   void initState() {
     super.initState();
-    futureMarket = getMarketStats();
+    futureGeckoMarket = getGeckoMarket();
   }
 
   @override
@@ -86,13 +87,13 @@ class _HomeScreenState extends State<HomeScreen> {
     ));
   }
 
-  void _onSearchValueChange(String q) {
+  void _onSearchValueChange(String q){
     _marketData = [];
     _copyMarketData.forEach((value) {
-      var b = value!.baseMarket!;
-      if (b.startsWith(q.toLowerCase())) {
-        _marketData.add(value);
-      }
+        var b = value.id!;
+        if(b.startsWith(q.toLowerCase())){
+          _marketData.add(value);
+        }
     });
 
     setState(() {});
@@ -113,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget btcCoinsWidget() {
-    return FutureBuilder<WZXMarketStat>(
+    return FutureBuilder<List<GeckoMarket>>(
       builder: (context, snapshot) {
         if (ConnectionState.active != null && !snapshot.hasData) {
           return Center(child: CircularProgressIndicator());
@@ -125,15 +126,16 @@ class _HomeScreenState extends State<HomeScreen> {
         }
 
         var stats = snapshot.data!;
-        if (!isMarketLoaded) {
-          _marketData = stats.markets!;
-          print("loaded " + _marketData[1]!.baseMarket!);
-          _marketData.removeWhere((item) => item!.quoteMarket != 'inr');
-          _marketData.removeWhere((item) => item!.status == 'suspended');
+        if(!isMarketLoaded){
+          _marketData = stats;
+
+//          _marketData.removeWhere((item) => item!.quoteMarket != 'inr');
+//          _marketData.removeWhere((item) => item!.status == 'suspended');
           _copyMarketData = []..addAll(_marketData);
 
           isMarketLoaded = true;
-        } else {
+        }
+        else{
           print("Already loaded");
         }
 
@@ -143,48 +145,32 @@ class _HomeScreenState extends State<HomeScreen> {
                 scrollDirection: Axis.vertical,
                 itemBuilder: (BuildContext context, int index) {
                   if (_marketData[index] == null ||
-                      _marketData[index]!.last == null ||
-                      _marketData[index]!.open == null ||
-                      _marketData[index]!.baseMarket == null ||
-                      _marketData[index]!.quoteMarket == null ||
-                      _marketData[index]!.last == null) return Container();
+                      _marketData[index].id == null ||
+                      _marketData[index].symbol == null ||
+                      _marketData[index].priceChangePercentage_24h == null ||
+                      _marketData[index].image == null ||
+                      _marketData[index].name == null ||
+                      _marketData[index].currentPrice == null ||
+                      false
+                    ) return Container();
 
-                  if ((double.parse((100 *
-                              (_marketData[index]!.open! -
-                                  double.parse(_marketData[index]!.last!)) /
-                              _marketData[index]!.open!)
-                          .toStringAsFixed(2))) >
-                      0) {
+                  if (_marketData[index].priceChangePercentage_24h! > 0) {
                     arrowWidget = upArrow();
                   } else {
                     arrowWidget = downArrow();
                   }
-                  return SwipeActionCell(
-                    key: Key(_marketData[index]!.baseMarket!),
-                    performsFirstActionWithFullSwipe: true,
-                    trailingActions: <SwipeAction>[
-                      SwipeAction(
-                          title: "Add to Favorites",
-                          onTap: (CompletionHandler handler) async {},
-                          color: Colors.green),
-                    ],
-                    child: CryptoCard(
-                        image: 'https://media.wazirx.com/media/' +
-                            _marketData[index]!.baseMarket! +
-                            '/84.png',
-                        cryptoName:
-                            _marketData[index]!.baseMarket!.toUpperCase(),
-                        cryptoExcerpt: _marketData[index]!.quoteMarket!,
-                        price: double.parse(_marketData[index]!.last!),
-                        change: double.parse((100 *
-                                (_marketData[index]!.open! -
-                                    double.parse(_marketData[index]!.last!)) /
-                                _marketData[index]!.open!)
-                            .toStringAsFixed(2))),
-                  );
+                  return CryptoCard(
+                      image: _marketData[index].image!,
+                      cryptoName:
+                          _marketData[index].name!.toUpperCase(),
+                      cryptoExcerpt: _marketData[index].symbol!,
+                      price: _marketData[index].currentPrice!,
+                       //price: 20.1,
+                      change: double.parse(_marketData[index].priceChangePercentage_24h!.toStringAsFixed(2))
+                    );
                 }));
       },
-      future: getMarketStats(),
+      future: getGeckoMarket(),
     );
   }
 }
