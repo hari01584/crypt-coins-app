@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'pojo/NewsFrame.dart';
 import 'network/_Scrape_MoneyControl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NewsScreen extends StatefulWidget {
   @override
@@ -27,7 +28,6 @@ class _NewsScreenState extends State<NewsScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            
             Expanded(
               child: newsWidget()
             ),
@@ -95,83 +95,70 @@ class NewsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              color: Color(0xFFF5F5F5),
-              elevation: 3,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image.network(
-                    imgUrl,
-                    width: double.infinity,
-                    height: 120,
-                    fit: BoxFit.cover,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(15, 15, 15, 25),
+    return TextButton(
+            onPressed: () => _launchURL(postUrl),
+            style: TextButton.styleFrom(
+            padding: EdgeInsets.only(top: 3.0, bottom: 3.0, left:6.0, right: 6.0),
+           ),
+            child: Card(
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    color: Color(0xFFF5F5F5),
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        // Padding(
-                        //   padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                        //   child: Row(
-                        //     mainAxisSize: MainAxisSize.max,
-                        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //     children: [
-                        //       Text(
-                        //         headline,
-                        //         style: TextStyle(
-                        //           fontFamily: 'Poppins',
-                        //           fontSize: 15,
-                        //           fontWeight: FontWeight.w600,
-                        //         ),
-                        //       ),
-                        //       Text(
-                        //         time,
-                        //         style: TextStyle(
-                        //           fontFamily: 'Poppins',
-                        //         ),
-                        //       )
-                        //     ],
-                        //   ),
-                        // ),
-                        Text(
-                          "Head: " + headline,
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                          ),
+                        Image.network(
+                          imgUrl,
+                          width: double.infinity,
+                          height: 120,
+                          fit: BoxFit.cover,
                         ),
                         Padding(
-                          padding: EdgeInsets.fromLTRB(0, 3, 0, 0),
-                          child: Text(
-                            "Desc: " + desc,
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 3, 0, 0),
-                          child: Text(
-                            "At: " + time,
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                            ),
+                          padding: EdgeInsets.fromLTRB(15, 15, 15, 25),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Text(
+                                "Head: " + headline,
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(0, 3, 0, 0),
+                                child: Text(
+                                  "Desc: " + desc,
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(0, 3, 0, 0),
+                                child: Text(
+                                  "At: " + time,
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
                         )
                       ],
                     ),
-                  )
-                ],
-              ),
+                )
           );
   }
+
+  void _launchURL(String _url) async =>
+    await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
+
 }
