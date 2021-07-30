@@ -19,7 +19,7 @@ class GeckoCoin{
     id = json["id"]?.toString();
     symbol = json["symbol"]?.toString();
     name = json["name"]?.toString();
-    image = json["image"]["thumb"]?.toString();
+    image = json["image"]["large"]?.toString();
     description = json["description"]["en"]?.toString();
     currentPriceInr = json["market_data"]["current_price"]["inr"]?.toString();
   }
