@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 
-class CryptoDetailCard extends StatelessWidget {
+class CryptoDetailCard extends StatefulWidget {
   final String id;
   CryptoDetailCard({required this.id});
+
+  @override
+  _CryptoDetailCardState createState() => _CryptoDetailCardState();
+}
+
+class _CryptoDetailCardState extends State<CryptoDetailCard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
