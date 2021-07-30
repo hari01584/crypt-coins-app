@@ -1,3 +1,4 @@
+import 'package:cryptapp/crypto_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'network/WZXAPI.dart';
@@ -165,7 +166,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     trailingActions: <SwipeAction>[
                       SwipeAction(
                           title: "Add to Favorites",
-                          onTap: (CompletionHandler handler) async {},
+                          onTap: (CompletionHandler handler) async {
+                            print('hiiiii');
+                          },
                           color: Colors.green),
                     ],
                     child: CryptoCard(
@@ -207,7 +210,10 @@ class CryptoCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 4.0, right: 4.0),
       child: TextButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => CryptoDetailCard()));
+        },
         style: TextButton.styleFrom(
           padding:
               EdgeInsets.only(top: 3.0, bottom: 3.0, left: 6.0, right: 6.0),
