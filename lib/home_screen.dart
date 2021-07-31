@@ -136,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       SwipeAction(
                           title: "Add to Favorites",
                           onTap: (CompletionHandler handler) async {
-                            print('hiiiii');
+                            __addToFavourites(_marketData[index].id!);
                           },
                           color: Colors.green),
                     ],
@@ -155,6 +155,10 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       future: getGeckoMarket(),
     );
+  }
+
+  void __addToFavourites(String id){
+    print("Coming soon");
   }
 }
 
