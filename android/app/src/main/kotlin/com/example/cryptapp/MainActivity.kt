@@ -1,4 +1,4 @@
-package com.example.cryptapp
+package com.crippy.cryptapp
 
 import io.flutter.embedding.android.FlutterActivity
 
