@@ -1,5 +1,5 @@
 # **CRIPPY (CRYPTO APP)**
-We have made an app for `tracking live prices adn basic details about most of the cryptocurrencies of the world` We have also included news section which displays latest news relate dto cryptocurrencies. It is `integrated with Coingecko's API .`
+We have made an app for `tracking live prices and basic details about most of the cryptocurrencies of the world` We have also included news section which displays latest news related to cryptocurrencies. It is `integrated with Coingecko's API .`
 
 # **SNAPSHOTS:-**
 <p float="left" align="center" margin="10px">
