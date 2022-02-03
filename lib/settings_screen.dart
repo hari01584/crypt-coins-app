@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -12,6 +13,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool b = true;
   bool c = true;
   bool d = true;
+  final _url = 'https://rgtechpro.github.io/crippy_privacy_policy/';
+  void _launchURL() async {
+    try {
+      await launch(_url, forceWebView: true);
+    } catch (e) {
+      final snackBar = SnackBar(
+          duration: Duration(milliseconds: 1250), content: Text(e.toString()));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,21 +89,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ],
           ),
           SettingsSection(
-            title: 'Contact US',
-            tiles: [
-              SettingsTile(title: 'Whatsapp Us', leading: Icon(Icons.message)),
-              SettingsTile(title: 'Email Us', leading: Icon(Icons.email)),
-              SettingsTile(title: 'See Website', leading: Icon(Icons.web)),
-            ],
-          ),
-          SettingsSection(
             title: 'Misc',
             tiles: [
               SettingsTile(
-                  title: 'Terms of Service', leading: Icon(Icons.description)),
-              SettingsTile(
-                  title: 'Open source licenses',
-                  leading: Icon(Icons.collections_bookmark)),
+                  onPressed: (context) {
+                    _launchURL();
+                  },
+                  title: 'Privacy Policy',
+                  leading: Icon(Icons.description)),
             ],
           ),
         ],
